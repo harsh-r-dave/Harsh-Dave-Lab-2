@@ -9,6 +9,10 @@ var objects;
     var Label = (function (_super) {
         __extends(Label, _super);
         // CONSTRUCTOR METHOD +++++++++++++++++++++++++++++++++++
+        /*
+            super CONSTRUCTOR modified
+            string changed to number
+        */
         function Label(labelString, labelFont, labelColour, x, y) {
             _super.call(this, labelString, labelFont, labelColour);
             this.regX = this.getBounds().width * 0.5;

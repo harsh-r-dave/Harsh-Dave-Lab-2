@@ -19,6 +19,9 @@ var scenes;
             this._bells = 0;
             this._sevens = 0;
             this._blanks = 0;
+            this._bet = 1;
+            this._jackpot = 10140;
+            this._credit = 150;
         }
         // PUBLIC METHODS +++++++++++++++++++++
         // Start Method
@@ -50,6 +53,25 @@ var scenes;
             this._spinButton = new objects.Button("SpinButton", 402, 382, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
+            // add Credit image to the scene
+            this._creditImage = new createjs.Bitmap(assets.getResult("Credit"));
+            this._creditImage.x = 180;
+            this._creditImage.y = 293;
+            this.addChild(this._creditImage);
+            // add Bet image to the scene
+            this._betImage = new createjs.Bitmap(assets.getResult("Bet"));
+            this._betImage.x = 335;
+            this._betImage.y = 293;
+            this.addChild(this._betImage);
+            // add jackpot label to the scene
+            this._jackpotLabel = new objects.Label(153456, "25px Consolas", "#000000", config.Screen.CENTER_X, 11);
+            this.addChild(this._jackpotLabel);
+            // add bet label to the scene
+            this._betLabel = new objects.Label(100, "25px Consolas", "#000000", 433, 303);
+            this.addChild(this._betLabel);
+            // add credit label to the scene
+            this._creditLabel = new objects.Label(1000, "25px Consolas", "#000000", 290, 303);
+            this.addChild(this._creditLabel);
             // add this scene to the global stage container
             stage.addChild(this);
         };

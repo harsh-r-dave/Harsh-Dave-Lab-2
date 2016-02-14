@@ -12,18 +12,19 @@ var slotMachine;
 var gameOver;
 var assetData = [
     { id: "WelCome", src: "../../Assets/images/WelCome.png" },
+    { id: "PlayGameButton", src: "../../Assets/images/PlayGame.png" },
     { id: "Quit", src: "../../Assets/images/Quit.png" },
     { id: "Reset", src: "../../Assets/images/Reset.png" },
-    { id: "ThankYou", src: "../../Assets/images/ThankYou.jpg" },
-    { id: "PlayAgainButton", src: "../../Assets/images/PlayAgain.png" },
-    { id: "Home", src: "../../Assets/images/Home.png" },
-    { id: "PlayGameButton", src: "../../Assets/images/PlayGame.png" },
-    { id: "StartOverButton", src: "../../Assets/images/StartOverButton.png" },
     { id: "SlotMachine", src: "../../Assets/images/SlotMachine.png" },
+    { id: "Credit", src: "../../Assets/images/credit1.png" },
+    { id: "Bet", src: "../../Assets/images/bet1.png" },
     { id: "Bet1Button", src: "../../Assets/images/Bet1Button.png" },
     { id: "Bet10Button", src: "../../Assets/images/Bet10Button.png" },
     { id: "Bet100Button", src: "../../Assets/images/Bet100Button.png" },
     { id: "SpinButton", src: "../../Assets/images/SpinButton.png" },
+    { id: "ThankYou", src: "../../Assets/images/ThankYou.jpg" },
+    { id: "PlayAgainButton", src: "../../Assets/images/PlayAgain.png" },
+    { id: "Home", src: "../../Assets/images/Home.png" },
 ];
 function preload() {
     assets = new createjs.LoadQueue();

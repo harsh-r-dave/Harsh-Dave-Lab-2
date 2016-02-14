@@ -15,19 +15,20 @@ var slotMachine: scenes.SlotMachine;
 var gameOver: scenes.GameOver;
 
 var assetData:objects.Asset[] = [
-    {id: "WelCome", src:"../../Assets/images/WelCome.png"},
-    {id: "Quit", src:"../../Assets/images/Quit.png"},
-    {id: "Reset", src:"../../Assets/images/Reset.png"},
-    {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},
-    {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},
-    {id: "Home", src:"../../Assets/images/Home.png"},
-    {id: "PlayGameButton", src:"../../Assets/images/PlayGame.png"},
-    {id: "StartOverButton", src:"../../Assets/images/StartOverButton.png"},
-    {id: "SlotMachine", src:"../../Assets/images/SlotMachine.png"},
-    {id: "Bet1Button", src:"../../Assets/images/Bet1Button.png"},
-    {id: "Bet10Button", src:"../../Assets/images/Bet10Button.png"},
-    {id: "Bet100Button", src:"../../Assets/images/Bet100Button.png"},
-    {id: "SpinButton", src:"../../Assets/images/SpinButton.png"},
+    {id: "WelCome", src:"../../Assets/images/WelCome.png"},                 //MENU scene
+    {id: "PlayGameButton", src:"../../Assets/images/PlayGame.png"},         //MENU scene
+    {id: "Quit", src:"../../Assets/images/Quit.png"},                       //SLOT_MACHINE scene
+    {id: "Reset", src:"../../Assets/images/Reset.png"},                     //SLOT_MACHINE scene    
+    {id: "SlotMachine", src:"../../Assets/images/SlotMachine.png"},         //SLOT_MACHINE scene
+    {id: "Credit", src:"../../Assets/images/credit1.png"},                  //SLOT_MACHINE scene
+    {id: "Bet", src:"../../Assets/images/bet1.png"},                        //SLOT_MACHINE scene
+    {id: "Bet1Button", src:"../../Assets/images/Bet1Button.png"},           //SLOT_MACHINE scene
+    {id: "Bet10Button", src:"../../Assets/images/Bet10Button.png"},         //SLOT_MACHINE scene
+    {id: "Bet100Button", src:"../../Assets/images/Bet100Button.png"},       //SLOT_MACHINE scene
+    {id: "SpinButton", src:"../../Assets/images/SpinButton.png"},           //SLOT_MACHINE scene
+    {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},               //GAME_OVER scene
+    {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},       //GAME_OVER scene
+    {id: "Home", src:"../../Assets/images/Home.png"},                       //GAME_OVER scene
 ];
 
 function preload() {
