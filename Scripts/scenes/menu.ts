@@ -2,8 +2,8 @@
 module scenes {
     export class Menu extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
-        private _startButton:objects.Button;
-        private _welcomeLabel:objects.Label;
+        private _PlayGameButton:objects.Button;
+        private _welcomeImage: createjs.Bitmap;
         
         // CONSTRUCTOR ++++++++++++++++++++++
         constructor() {
@@ -13,26 +13,21 @@ module scenes {
         // PUBLIC METHODS +++++++++++++++++++++
         
         // Start Method
-        public start(): void {    
-            
-            // add the WELCOME Label to the MENU scene
-            this._welcomeLabel = new objects.Label(
-                "SLOT MACHINE", 
-                "60px Consolas", 
-                "#000000", 
-                config.Screen.CENTER_X, 
-                config.Screen.CENTER_Y);
-            this.addChild(this._welcomeLabel);
+        public start(): void {   
+                     
+            // add the welcome image to the MENU scene
+            this._welcomeImage = new createjs.Bitmap(assets.getResult("WelCome"));
+            this.addChild(this._welcomeImage);
                    
-            // add the START button to the MENU scene
-            this._startButton = new objects.Button(
-                "StartButton",
+            // add the PLAYGAME button to the MENU scene
+            this._PlayGameButton = new objects.Button(
+                "PlayGameButton",
                 config.Screen.CENTER_X,
-                config.Screen.CENTER_Y + 80);
-            this.addChild(this._startButton);
+                config.Screen.CENTER_Y + 180, true);
+            this.addChild(this._PlayGameButton);
             
-            // START Button event listener
-            this._startButton.on("click", this._startButtonClick, this);
+            // PLAYGAME Button event listener
+            this._PlayGameButton.on("click", this._PlayGameButtonClick, this);
            
             
             // add this scene to the global stage container
@@ -47,12 +42,11 @@ module scenes {
         
         //EVENT HANDLERS ++++++++++++++++++++
         
-        // START Button click event handler
-        private _startButtonClick(event: createjs.MouseEvent) {
-            // Switch to the LEFT_CAVE Scene
+        // PLAYGAME Button click event handler
+        private _PlayGameButtonClick(event: createjs.MouseEvent) {
+            // Switch to the SLOT_MACHINE Scene
             scene = config.Scene.SLOT_MACHINE;
             changeScene();
-        }
-        
+        } 
     }
 }

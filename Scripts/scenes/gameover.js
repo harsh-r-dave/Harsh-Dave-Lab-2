@@ -15,25 +15,35 @@ var scenes;
         // PUBLIC METHODS +++++++++++++++++++++
         // Start Method
         GameOver.prototype.start = function () {
-            // add the WELCOME Label to the MENU scene
-            this._gameOverLabel = new objects.Label("GAME OVER", "60px Consolas", "#000000", config.Screen.CENTER_X, config.Screen.CENTER_Y);
-            this.addChild(this._gameOverLabel);
-            // add the START button to the MENU scene
-            this._startOverButton = new objects.Button("StartButton", config.Screen.CENTER_X, config.Screen.CENTER_Y + 80);
-            this.addChild(this._startOverButton);
-            // START Button event listener
-            this._startOverButton.on("click", this._startOverButtonClick, this);
+            //add THANKYOU image to the scene
+            this._ThankImage = new createjs.Bitmap(assets.getResult("ThankYou"));
+            this.addChild(this._ThankImage);
+            // add the PLAYAGAIN button to the scene
+            this._playAgainButton = new objects.Button("PlayAgainButton", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 180, true);
+            this.addChild(this._playAgainButton);
+            // PLAYAGAIN Button event listener
+            this._playAgainButton.on("click", this._playAgainButtonClick, this);
+            // add the HOME button to the scene
+            this._homeButton = new objects.Button("Home", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 180, true);
+            this.addChild(this._homeButton);
+            // Home Button event listener
+            this._homeButton.on("click", this._homeButtonClick, this);
             // add this scene to the global stage container
             stage.addChild(this);
         };
-        // INTRO Scene updates here
+        // GAME OVER Scene updates here
         GameOver.prototype.update = function () {
         };
         //EVENT HANDLERS ++++++++++++++++++++
-        // START Button click event handler
-        GameOver.prototype._startOverButtonClick = function (event) {
-            // Switch to the LEFT_CAVE Scene
+        // PLAYAGAIN Button click event handler
+        GameOver.prototype._playAgainButtonClick = function (event) {
+            // Switch to the SLOT_MACHINE Scene
             scene = config.Scene.SLOT_MACHINE;
+            changeScene();
+        };
+        GameOver.prototype._homeButtonClick = function (event) {
+            //swich to the MENU scene
+            scene = config.Scene.MENU;
             changeScene();
         };
         return GameOver;
