@@ -19,9 +19,10 @@ var scenes;
             this._bells = 0;
             this._sevens = 0;
             this._blanks = 0;
-            this._bet = 1;
+            this._bet = 15;
             this._jackpot = 10140;
             this._credit = 150;
+            this._win = 0;
         }
         // PUBLIC METHODS +++++++++++++++++++++
         // Start Method
@@ -64,13 +65,13 @@ var scenes;
             this._betImage.y = 293;
             this.addChild(this._betImage);
             // add jackpot label to the scene
-            this._jackpotLabel = new objects.Label(153456, "25px Consolas", "#000000", config.Screen.CENTER_X, 11);
+            this._jackpotLabel = new objects.Label(153456, "25px Impact", "#000000", config.Screen.CENTER_X, 13);
             this.addChild(this._jackpotLabel);
             // add bet label to the scene
-            this._betLabel = new objects.Label(100, "25px Consolas", "#000000", 433, 303);
+            this._betLabel = new objects.Label(100, "25px Impact", "#000000", 433, 305);
             this.addChild(this._betLabel);
             // add credit label to the scene
-            this._creditLabel = new objects.Label(1000, "25px Consolas", "#000000", 290, 303);
+            this._creditLabel = new objects.Label(1000, "25px Impact", "#000000", 290, 305);
             this.addChild(this._creditLabel);
             // add this scene to the global stage container
             stage.addChild(this);
@@ -79,11 +80,7 @@ var scenes;
         SlotMachine.prototype.update = function () {
         };
         //PRIVATE METHODS
-        /* Utility function to check if a value falls within a range of bounds */
-        SlotMachine.prototype._checkRange = function (value, lowerBounds, upperBounds) {
-            return (value >= lowerBounds && value <= upperBounds) ? value : -1;
-        };
-        //function to generate reels
+        // function to generate reels
         SlotMachine.prototype._createReel = function (image, position) {
             if (position == 0) {
                 this._reel1 = new createjs.Bitmap(assets.getResult(image));
@@ -104,6 +101,10 @@ var scenes;
                 this._reel3.y = 220;
             }
         };
+        /* Utility function to check if a value falls within a range of bounds */
+        SlotMachine.prototype._checkRange = function (value, lowerBounds, upperBounds) {
+            return (value >= lowerBounds && value <= upperBounds) ? value : -1;
+        };
         /* When this function is called it determines the betLine results.
         e.g. Bar - Orange - Banana */
         SlotMachine.prototype._reels = function () {
@@ -115,7 +116,6 @@ var scenes;
             this._createReel("Blank", 2);
             for (var spin = 0; spin < 3; spin++) {
                 outCome[spin] = Math.floor((Math.random() * 65) + 1);
-                console.log(outCome);
                 switch (outCome[spin]) {
                     case this._checkRange(outCome[spin], 1, 27):
                         betLine[spin] = "blank";
@@ -161,13 +161,117 @@ var scenes;
             }
             return betLine;
         };
-        //EVENT HANDLERS ++++++++++++++++++++
-        SlotMachine.prototype._resetButtonClick = function (event) {
-            console.log("Reset game");
+        // function to reset fruit counts
+        SlotMachine.prototype._resetFruitTally = function () {
+            this._grapes = 0;
+            this._bananas = 0;
+            this._oranges = 0;
+            this._cherries = 0;
+            this._bars = 0;
+            this._bells = 0;
+            this._sevens = 0;
+            this._blanks = 0;
+        };
+        // function to reset game
+        SlotMachine.prototype._resetGame = function () {
             //Clear reels
             this._createReel("Blank", 0);
             this._createReel("Blank", 1);
             this._createReel("Blank", 2);
+            this._credit = 150;
+            this._jackpot = 10140;
+            this._win = 0;
+            this._bet = 15;
+            this._resetFruitTally();
+        };
+        // function to calculate winning amount
+        SlotMachine.prototype._calculateWinning = function () {
+            // deduct amount from player's credit
+            this._win = 0;
+            // calculate winning amount
+            if (this._blanks == 0) {
+                if (this._grapes == 3) {
+                    this._win = this._bet * 10;
+                }
+                else if (this._bananas == 3) {
+                    this._win = this._bet * 20;
+                }
+                else if (this._oranges == 3) {
+                    this._win = this._bet * 30;
+                }
+                else if (this._cherries == 3) {
+                    this._win = this._bet * 40;
+                }
+                else if (this._bars == 3) {
+                    this._win = this._bet * 50;
+                }
+                else if (this._bells == 3) {
+                    this._win = this._bet * 75;
+                }
+                else if (this._sevens == 3) {
+                    this._win = this._bet * 100;
+                }
+                else if (this._grapes == 2) {
+                    this._win = this._bet * 2;
+                }
+                else if (this._bananas == 2) {
+                    this._win = this._bet * 2;
+                }
+                else if (this._oranges == 2) {
+                    this._win = this._bet * 3;
+                }
+                else if (this._cherries == 2) {
+                    this._win = this._bet * 4;
+                }
+                else if (this._bars == 2) {
+                    this._win = this._bet * 5;
+                }
+                else if (this._bells == 2) {
+                    this._win = this._bet * 10;
+                }
+                else if (this._sevens == 2) {
+                    this._win = this._bet * 20;
+                }
+                else if (this._sevens == 1) {
+                    this._win = this._bet * 5;
+                }
+                else {
+                    this._win = this._bet * 1;
+                }
+                this._credit += this._win;
+                this._resetFruitTally();
+            }
+            else {
+                //lossNumber++;
+                //showLossMessage();
+                this._jackpot += this._bet;
+                this._credit -= this._bet;
+                this._resetFruitTally();
+            }
+            console.log("User Credit:" + this._credit);
+            console.log("Bet Amount:" + this._bet);
+            console.log("Winning Amount:" + this._win);
+            console.log("Jackpot Amount:" + this._jackpot);
+        };
+        // determine eligibility of player
+        SlotMachine.prototype._determineEligibility = function () {
+            if (this._credit <= 0) {
+                if (confirm("You ran out of money? Do you want to play again?")) {
+                    this._resetGame();
+                }
+            }
+            else if (this._bet > this._credit) {
+                alert("You don't have enough money to place that bet.");
+            }
+            else if (this._bet <= this._credit) {
+                console.log(this._reels());
+                this._calculateWinning();
+            }
+        };
+        //EVENT HANDLERS ++++++++++++++++++++
+        SlotMachine.prototype._resetButtonClick = function (event) {
+            console.log("Reset game");
+            this._resetGame();
         };
         SlotMachine.prototype._quitButtonClick = function (event) {
             //switch to GAMEOVER scene
@@ -186,7 +290,7 @@ var scenes;
         };
         SlotMachine.prototype._spinButtonClick = function (event) {
             console.log("Spin those reels!");
-            console.log(this._reels());
+            this._determineEligibility();
         };
         return SlotMachine;
     })(objects.Scene);
