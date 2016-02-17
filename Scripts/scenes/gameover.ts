@@ -58,6 +58,7 @@ module scenes {
             changeScene();
         }
         
+        // HOME Button click event handler
         private _homeButtonClick(event: createjs.MouseEvent) {
             //swich to the MENU scene
             scene = config.Scene.MENU;

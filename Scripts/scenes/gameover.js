@@ -41,6 +41,7 @@ var scenes;
             scene = config.Scene.SLOT_MACHINE;
             changeScene();
         };
+        // HOME Button click event handler
         GameOver.prototype._homeButtonClick = function (event) {
             //swich to the MENU scene
             scene = config.Scene.MENU;

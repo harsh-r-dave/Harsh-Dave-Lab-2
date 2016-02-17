@@ -34,7 +34,7 @@ module scenes {
             stage.addChild(this);
         }
 
-        // INTRO Scene updates here
+        // MENU Scene updates here
         public update(): void {
 
         }

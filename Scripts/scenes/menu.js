@@ -26,7 +26,7 @@ var scenes;
             // add this scene to the global stage container
             stage.addChild(this);
         };
-        // INTRO Scene updates here
+        // MENU Scene updates here
         Menu.prototype.update = function () {
         };
         //EVENT HANDLERS ++++++++++++++++++++

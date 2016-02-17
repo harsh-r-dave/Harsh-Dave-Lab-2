@@ -89,14 +89,14 @@ function changeScene() {
             console.log("Starting MENU Scene");
             break;
         case config.Scene.SLOT_MACHINE:
-            // show the PLAY scene
+            // show the SLOT MACHINE scene
             stage.removeAllChildren();
             slotMachine = new scenes.SlotMachine();
             currentScene = slotMachine;
             console.log("Starting SLOT_MACHINE Scene");
             break;
         case config.Scene.GAME_OVER:
-            // show the game OVER scene
+            // show the GAME OVER scene
             stage.removeAllChildren();
             gameOver = new scenes.GameOver();
             currentScene = gameOver;
