@@ -14,6 +14,10 @@ module scenes {
         private _betLabel: objects.Label;
         private _jackpotLabel: objects.Label;
         private _creditLabel: objects.Label;
+        private _reel1: createjs.Bitmap;
+        private _reel2: createjs.Bitmap;
+        private _reel3: createjs.Bitmap;
+        
 
         private _grapes = 0;
         private _bananas = 0;
@@ -27,6 +31,8 @@ module scenes {
         private _jackpot = 10140;
         private _credit = 150;
 
+        private _displayImage = [0, 0, 0];
+
         // CONSTRUCTOR ++++++++++++++++++++++
         constructor() {
             super();
@@ -35,7 +41,7 @@ module scenes {
         // PUBLIC METHODS +++++++++++++++++++++
         
         // Start Method
-        public start(): void {                
+        public start(): void {               
             // add background image to the scene
             this._backgroundImage = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._backgroundImage);
@@ -83,15 +89,15 @@ module scenes {
             this.addChild(this._betImage);
             
             // add jackpot label to the scene
-            this._jackpotLabel = new objects.Label(153456, "25px Consolas", "#000000", config.Screen.CENTER_X , 11);
+            this._jackpotLabel = new objects.Label(153456, "25px Consolas", "#000000", config.Screen.CENTER_X, 11);
             this.addChild(this._jackpotLabel);
             
             // add bet label to the scene
-            this._betLabel = new objects.Label(100, "25px Consolas", "#000000", 433 , 303);
+            this._betLabel = new objects.Label(100, "25px Consolas", "#000000", 433, 303);
             this.addChild(this._betLabel);
             
             // add credit label to the scene
-            this._creditLabel = new objects.Label(1000, "25px Consolas", "#000000", 290 , 303);
+            this._creditLabel = new objects.Label(1000, "25px Consolas", "#000000", 290, 303);
             this.addChild(this._creditLabel);
             
             // add this scene to the global stage container
@@ -114,43 +120,211 @@ module scenes {
         private _reels(): string[] {
             var betLine = [" ", " ", " "];
             var outCome = [0, 0, 0];
+            
+            // Clear the reel before displaying new reel object
+            this._reel1 = new createjs.Bitmap(assets.getResult("Blank"));
+            this.addChild(this._reel1);
+            this._reel1.x = 216;
+            this._reel1.y = 220;
+            
+            this._reel2 = new createjs.Bitmap(assets.getResult("Blank"));
+            this.addChild(this._reel2);
+            this._reel2.x = 300;
+            this._reel2.y = 220;
+            
+            this._reel3 = new createjs.Bitmap(assets.getResult("Blank"));
+            this.addChild(this._reel3);
+            this._reel3.x = 383;
+            this._reel3.y = 220;
 
             for (var spin = 0; spin < 3; spin++) {
                 outCome[spin] = Math.floor((Math.random() * 65) + 1);
+                console.log(outCome)
                 switch (outCome[spin]) {
                     case this._checkRange(outCome[spin], 1, 27):  // 41.5% probability
                         betLine[spin] = "blank";
                         this._blanks++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Blank"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Blank"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Blank"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 28, 37): // 15.4% probability
                         betLine[spin] = "Grapes";
                         this._grapes++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Grape"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Grape"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Grape"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 38, 46): // 13.8% probability
                         betLine[spin] = "Banana";
                         this._bananas++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Banana"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Banana"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Banana"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 47, 54): // 12.3% probability
                         betLine[spin] = "Orange";
                         this._oranges++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Orange"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Orange"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Orange"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 55, 59): //  7.7% probability
                         betLine[spin] = "Cherry";
                         this._cherries++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Cherry"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Cherry"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Cherry"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 60, 62): //  4.6% probability
                         betLine[spin] = "Bar";
                         this._bars++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Bar"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Bar"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Bar"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 63, 64): //  3.1% probability
                         betLine[spin] = "Bell";
                         this._bells++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Bell"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Bell"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Bell"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
+
                     case this._checkRange(outCome[spin], 65, 65): //  1.5% probability
                         betLine[spin] = "Seven";
                         this._sevens++;
+                        if (spin == 0) {
+                            this._reel1 = new createjs.Bitmap(assets.getResult("Seven"));
+                            this.addChild(this._reel1);
+                            this._reel1.x = 216;
+                            this._reel1.y = 220;
+                        }
+                        else if (spin == 1) {
+                            this._reel2 = new createjs.Bitmap(assets.getResult("Seven"));
+                            this.addChild(this._reel2);
+                            this._reel2.x = 300;
+                            this._reel2.y = 220;
+                        }
+                        else {
+                            this._reel3 = new createjs.Bitmap(assets.getResult("Seven"));
+                            this.addChild(this._reel3);
+                            this._reel3.x = 383;
+                            this._reel3.y = 220;
+                        }
                         break;
-                }
+                }  
             }
             return betLine;
         }

@@ -15,20 +15,28 @@ var slotMachine: scenes.SlotMachine;
 var gameOver: scenes.GameOver;
 
 var assetData:objects.Asset[] = [
-    {id: "WelCome", src:"../../Assets/images/WelCome.png"},                 //MENU scene
-    {id: "PlayGameButton", src:"../../Assets/images/PlayGame.png"},         //MENU scene
-    {id: "Quit", src:"../../Assets/images/Quit.png"},                       //SLOT_MACHINE scene
-    {id: "Reset", src:"../../Assets/images/Reset.png"},                     //SLOT_MACHINE scene    
-    {id: "SlotMachine", src:"../../Assets/images/SlotMachine.png"},         //SLOT_MACHINE scene
-    {id: "Credit", src:"../../Assets/images/credit1.png"},                  //SLOT_MACHINE scene
-    {id: "Bet", src:"../../Assets/images/bet1.png"},                        //SLOT_MACHINE scene
-    {id: "Bet1Button", src:"../../Assets/images/Bet1Button.png"},           //SLOT_MACHINE scene
-    {id: "Bet10Button", src:"../../Assets/images/Bet10Button.png"},         //SLOT_MACHINE scene
-    {id: "Bet100Button", src:"../../Assets/images/Bet100Button.png"},       //SLOT_MACHINE scene
-    {id: "SpinButton", src:"../../Assets/images/SpinButton.png"},           //SLOT_MACHINE scene
-    {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},               //GAME_OVER scene
-    {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},       //GAME_OVER scene
-    {id: "Home", src:"../../Assets/images/Home.png"},                       //GAME_OVER scene
+    {id: "WelCome", src:"../../Assets/images/WelCome.png"},                 //MENU scene-Welcome
+    {id: "PlayGameButton", src:"../../Assets/images/PlayGame.png"},         //MENU scene-PlayGameButton
+    {id: "Quit", src:"../../Assets/images/Quit.png"},                       //SLOT_MACHINE scene-QuitButton
+    {id: "Reset", src:"../../Assets/images/Reset.png"},                     //SLOT_MACHINE scene-ResetButton
+    {id: "SlotMachine", src:"../../Assets/images/SlotMachine.png"},         //SLOT_MACHINE scene-SlotMachine
+    {id: "Credit", src:"../../Assets/images/credit1.png"},                  //SLOT_MACHINE scene-Credit
+    {id: "Bet", src:"../../Assets/images/bet1.png"},                        //SLOT_MACHINE scene-Bet
+    {id: "Bet1Button", src:"../../Assets/images/Bet1Button.png"},           //SLOT_MACHINE scene-Bet1Button
+    {id: "Bet10Button", src:"../../Assets/images/Bet10Button.png"},         //SLOT_MACHINE scene-Bet10Button
+    {id: "Bet100Button", src:"../../Assets/images/Bet100Button.png"},       //SLOT_MACHINE scene-Bet100Button
+    {id: "SpinButton", src:"../../Assets/images/SpinButton.png"},           //SLOT_MACHINE scene-SpinButton
+    {id: "Blank", src:"../../Assets/images/blank.png"},                     //SLOT_MACHINE scene-Blank
+    {id: "Banana", src:"../../Assets/images/banana.png"},                   //SLOT_MACHINE scene-Banana
+    {id: "Bar", src:"../../Assets/images/Bar.png"},                         //SLOT_MACHINE scene-Bar
+    {id: "Bell", src:"../../Assets/images/Bell.png"},                       //SLOT_MACHINE scene-Bell
+    {id: "Cherry", src:"../../Assets/images/cherry.png"},                   //SLOT_MACHINE scene-Cherry
+    {id: "Grape", src:"../../Assets/images/grape.png"},                     //SLOT_MACHINE scene-Grape
+    {id: "Orange", src:"../../Assets/images/orange.png"},                   //SLOT_MACHINE scene-Orange
+    {id: "Seven", src:"../../Assets/images/seven.png"},                     //SLOT_MACHINE scene-Seven
+    {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},               //GAME_OVER scene-ThankYou
+    {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},       //GAME_OVER scene-PlayAgainButton
+    {id: "Home", src:"../../Assets/images/Home.png"},                       //GAME_OVER scene-HomeButton
 ];
 
 function preload() {
