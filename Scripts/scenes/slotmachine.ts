@@ -26,9 +26,9 @@ module scenes {
         private _bells = 0;
         private _sevens = 0;
         private _blanks = 0;
-        private _bet = 15;
+        private _bet = 10;
         private _jackpot = 10140;
-        private _credit = 150;
+        private _credit = 1000;
         private _win = 0;
 
         // CONSTRUCTOR ++++++++++++++++++++++
@@ -220,10 +220,10 @@ module scenes {
             this._createReel("Blank", 0);
             this._createReel("Blank", 1);
             this._createReel("Blank", 2);
-            this._credit = 150;
+            this._credit = 1000;
             this._jackpot = 10140;
             this._win = 0;
-            this._bet = 15;
+            this._bet = 10;
             this._resetFruitTally();
         }
                 
@@ -330,14 +330,17 @@ module scenes {
         }
         private _bet1ButtonClick(event: createjs.MouseEvent): void {
             console.log("Bet 1 Credit");
+            this._bet = 1;
         }
 
         private _bet10ButtonClick(event: createjs.MouseEvent): void {
             console.log("Bet 10 Credit");
+            this._bet = 10;
         }
 
         private _bet100ButtonClick(event: createjs.MouseEvent): void {
             console.log("Bet 100 Credit");
+            this._bet = 100;
         }
 
         private _spinButtonClick(event: createjs.MouseEvent): void {

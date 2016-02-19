@@ -19,9 +19,9 @@ var scenes;
             this._bells = 0;
             this._sevens = 0;
             this._blanks = 0;
-            this._bet = 15;
+            this._bet = 10;
             this._jackpot = 10140;
-            this._credit = 150;
+            this._credit = 1000;
             this._win = 0;
         }
         // PUBLIC METHODS +++++++++++++++++++++
@@ -178,10 +178,10 @@ var scenes;
             this._createReel("Blank", 0);
             this._createReel("Blank", 1);
             this._createReel("Blank", 2);
-            this._credit = 150;
+            this._credit = 1000;
             this._jackpot = 10140;
             this._win = 0;
-            this._bet = 15;
+            this._bet = 10;
             this._resetFruitTally();
         };
         // function to calculate winning amount
@@ -281,12 +281,15 @@ var scenes;
         };
         SlotMachine.prototype._bet1ButtonClick = function (event) {
             console.log("Bet 1 Credit");
+            this._bet = 1;
         };
         SlotMachine.prototype._bet10ButtonClick = function (event) {
             console.log("Bet 10 Credit");
+            this._bet = 10;
         };
         SlotMachine.prototype._bet100ButtonClick = function (event) {
             console.log("Bet 100 Credit");
+            this._bet = 100;
         };
         SlotMachine.prototype._spinButtonClick = function (event) {
             console.log("Spin those reels!");
