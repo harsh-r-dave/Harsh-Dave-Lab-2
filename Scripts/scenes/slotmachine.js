@@ -256,12 +256,35 @@ var scenes;
         // determine eligibility of player
         SlotMachine.prototype._determineEligibility = function () {
             if (this._credit <= 0) {
-                if (confirm("You ran out of money? Do you want to play again?")) {
-                    this._resetGame();
-                }
+                // show error message box
+                this._ranOutMoney = new createjs.Bitmap(assets.getResult("RanOutMoney"));
+                this.addChild(this._ranOutMoney);
+                this._ranOutMoney.x = 166;
+                this._ranOutMoney.y = 190;
+                // add control buttons
+                this._okButton = new objects.Button("Ok", 220, 243, false);
+                this.addChild(this._okButton);
+                this._okButton.on("click", this._okButtonClick, this);
+                this._cancelButton = new objects.Button("Cancel", 350, 243, false);
+                this.addChild(this._cancelButton);
+                this._cancelButton.on("click", this._cancelButtonClick, this);
+                // disable spin and reset button
+                this._resetButton.visible = false;
+                this._spinButton.visible = false;
             }
             else if (this._bet > this._credit) {
-                alert("You don't have enough money to place that bet.");
+                // show error message box
+                this._notEnoughMoney = new createjs.Bitmap(assets.getResult("NotEnoughMoney"));
+                this.addChild(this._notEnoughMoney);
+                this._notEnoughMoney.x = 166;
+                this._notEnoughMoney.y = 190;
+                // add control button
+                this._closeButton = new objects.Button("Close", 290, 245, false);
+                this.addChild(this._closeButton);
+                this._closeButton.on("click", this._closeButtonClick, this);
+                // disable spin and reset button
+                this._resetButton.visible = false;
+                this._spinButton.visible = false;
             }
             else if (this._bet <= this._credit) {
                 console.log(this._reels());
@@ -269,31 +292,108 @@ var scenes;
             }
         };
         //EVENT HANDLERS ++++++++++++++++++++
+        // RESET button event handler
         SlotMachine.prototype._resetButtonClick = function (event) {
             console.log("Reset game");
             this._resetGame();
         };
+        //QUIT button event handler
         SlotMachine.prototype._quitButtonClick = function (event) {
+            // show message box
+            this._quitMessage = new createjs.Bitmap(assets.getResult("QuitMessage"));
+            this._quitMessage.x = 166;
+            this._quitMessage.y = 190;
+            this.addChild(this._quitMessage);
+            // add controls
+            this._yesButton = new objects.Button("Yes", 220, 235, false);
+            this.addChild(this._yesButton);
+            this._yesButton.on("click", this._yesButtonClick, this);
+            this._noButton = new objects.Button("No", 350, 235, false);
+            this.addChild(this._noButton);
+            this._noButton.on("click", this._noButtonClick, this);
+            // disable spin and reset button
+            this._resetButton.visible = false;
+            this._spinButton.visible = false;
+            // disable RanOutMoney message box
+            this.removeChild(this._okButton);
+            this.removeChild(this._cancelButton);
+            this.removeChild(this._ranOutMoney);
+            // disable NotEnoughMoney message box
+            this.removeChild(this._closeButton);
+            this.removeChild(this._notEnoughMoney);
+        };
+        // BET1BUTTON button event handler
+        SlotMachine.prototype._bet1ButtonClick = function (event) {
+            console.log("Bet 1 Credit");
+            this._bet = 1;
+        };
+        // BET10BUTTON button event handler
+        SlotMachine.prototype._bet10ButtonClick = function (event) {
+            console.log("Bet 10 Credit");
+            this._bet = 10;
+        };
+        // BET100BUTTON button event handler
+        SlotMachine.prototype._bet100ButtonClick = function (event) {
+            console.log("Bet 100 Credit");
+            this._bet = 100;
+        };
+        //SPIN button event handler
+        SlotMachine.prototype._spinButtonClick = function (event) {
+            console.log("Spin those reels!");
+            this._determineEligibility();
+        };
+        // OK button event handler
+        SlotMachine.prototype._okButtonClick = function (event) {
+            console.log("OK button clicked");
+            // reset game
+            this._resetGame();
+            // enable spin and reset buttons
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable message box
+            this.removeChild(this._okButton);
+            this.removeChild(this._cancelButton);
+            this.removeChild(this._ranOutMoney);
+        };
+        // CANCEL button event handler
+        SlotMachine.prototype._cancelButtonClick = function (event) {
+            console.log("CANCEL button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable message box
+            this.removeChild(this._okButton);
+            this.removeChild(this._cancelButton);
+            this.removeChild(this._ranOutMoney);
+        };
+        //CLOSE button event handler
+        SlotMachine.prototype._closeButtonClick = function (event) {
+            console.log("CLOSE button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable message box
+            this.removeChild(this._closeButton);
+            this.removeChild(this._notEnoughMoney);
+        };
+        //YES button event handler
+        SlotMachine.prototype._yesButtonClick = function (event) {
+            console.log("YES button clicked");
             //switch to GAMEOVER scene
             scene = config.Scene.GAME_OVER;
             changeScene();
             console.log("start Game over scene");
         };
-        SlotMachine.prototype._bet1ButtonClick = function (event) {
-            console.log("Bet 1 Credit");
-            this._bet = 1;
-        };
-        SlotMachine.prototype._bet10ButtonClick = function (event) {
-            console.log("Bet 10 Credit");
-            this._bet = 10;
-        };
-        SlotMachine.prototype._bet100ButtonClick = function (event) {
-            console.log("Bet 100 Credit");
-            this._bet = 100;
-        };
-        SlotMachine.prototype._spinButtonClick = function (event) {
-            console.log("Spin those reels!");
-            this._determineEligibility();
+        // NO button event handler
+        SlotMachine.prototype._noButtonClick = function (event) {
+            console.log("NO button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable messagebox
+            this.removeChild(this._yesButton);
+            this.removeChild(this._noButton);
+            this.removeChild(this._quitMessage);
         };
         return SlotMachine;
     })(objects.Scene);

@@ -34,6 +34,14 @@ var assetData:objects.Asset[] = [
     {id: "Grape", src:"../../Assets/images/grape.png"},                     //SLOT_MACHINE scene-Grape
     {id: "Orange", src:"../../Assets/images/orange.png"},                   //SLOT_MACHINE scene-Orange
     {id: "Seven", src:"../../Assets/images/seven.png"},                     //SLOT_MACHINE scene-Seven
+    {id: "Ok", src:"../../Assets/images/Ok.png"},                           //SLOT_MACHINE scene-Ok
+    {id: "Close", src:"../../Assets/images/Close.png"},                     //SLOT_MACHINE scene-Close
+    {id: "Cancel", src:"../../Assets/images/Cancel.png"},                   //SLOT_MACHINE scene-Cancel
+    {id: "RanOutMoney", src:"../../Assets/images/RanOutMoney.png"},         //SLOT_MACHINE scene-RanOutMoney
+    {id: "NotEnoughMoney", src:"../../Assets/images/NotEnoughMoney.png"},   //SLOT_MACHINE scene-NotEnoughMoney
+    {id: "QuitMessage", src:"../../Assets/images/QuitMessage.png"},         //SLOT_MACHINE scene-Quit
+    {id: "Yes", src:"../../Assets/images/Yes.png"},                         //SLOT_MACHINE scene-Yes
+    {id: "No", src:"../../Assets/images/No.png"},                           //SLOT_MACHINE scene-No
     {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},               //GAME_OVER scene-ThankYou
     {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},       //GAME_OVER scene-PlayAgainButton
     {id: "Home", src:"../../Assets/images/Home.png"},                       //GAME_OVER scene-HomeButton

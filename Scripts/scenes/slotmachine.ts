@@ -3,20 +3,28 @@ module scenes {
     export class SlotMachine extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
         private _backgroundImage: createjs.Bitmap;
-        private _creditImage: createjs.Bitmap;
-        private _betImage: createjs.Bitmap;
+        private _creditImage: createjs.Bitmap;      // image to display credit text
+        private _betImage: createjs.Bitmap;         // image to display bet text
         private _bet1Button: objects.Button;
         private _bet10Button: objects.Button;
         private _bet100Button: objects.Button;
         private _spinButton: objects.Button;
         private _resetButton: objects.Button;
         private _quitButton: objects.Button;
-        private _betLabel: objects.Label;
-        private _jackpotLabel: objects.Label;
-        private _creditLabel: objects.Label;
+        private _betLabel: objects.Label;       //bet label
+        private _jackpotLabel: objects.Label;   //jackpot label
+        private _creditLabel: objects.Label;    //credit label
         private _reel1: createjs.Bitmap;
         private _reel2: createjs.Bitmap;
         private _reel3: createjs.Bitmap;
+        private _notEnoughMoney: createjs.Bitmap;       // error message
+        private _ranOutMoney: createjs.Bitmap;          // error message
+        private _okButton: objects.Button;              // error message
+        private _closeButton: objects.Button;           // error message
+        private _cancelButton: objects.Button;          // error message
+        private _quitMessage: createjs.Bitmap;          // exit confirmation
+        private _yesButton: objects.Button;             // exit confirmation
+        private _noButton: objects.Button;              // exit confirmation
 
         private _grapes = 0;
         private _bananas = 0;
@@ -111,19 +119,19 @@ module scenes {
         
         // function to generate reels
         private _createReel(image: string, position: number): void {
-            if(position == 0) {
+            if (position == 0) {
                 this._reel1 = new createjs.Bitmap(assets.getResult(image));
                 this.addChild(this._reel1);
                 this._reel1.x = 216;
                 this._reel1.y = 220;
             }
-            else if(position == 1) {
+            else if (position == 1) {
                 this._reel2 = new createjs.Bitmap(assets.getResult(image));
                 this.addChild(this._reel2);
                 this._reel2.x = 300;
                 this._reel2.y = 220;
             }
-            else if(position == 2) {
+            else if (position == 2) {
                 this._reel3 = new createjs.Bitmap(assets.getResult(image));
                 this.addChild(this._reel3);
                 this._reel3.x = 383;
@@ -197,7 +205,7 @@ module scenes {
                         this._sevens++;
                         this._createReel("Seven", spin);
                         break;
-                }  
+                }
             }
             return betLine;
         }
@@ -291,7 +299,7 @@ module scenes {
                 //lossNumber++;
                 //showLossMessage();
                 this._jackpot += this._bet;
-                this._credit -=  this._bet;
+                this._credit -= this._bet;
                 this._resetFruitTally();
             }
             console.log("User Credit:" + this._credit);
@@ -302,50 +310,160 @@ module scenes {
         
         // determine eligibility of player
         private _determineEligibility(): void {
-            if (this._credit <= 0) {
-                if (confirm("You ran out of money? Do you want to play again?")) {
-                    this._resetGame();
-                }
+            if (this._credit <= 0) {    // code when player has 0 credit
+                // show error message box
+                this._ranOutMoney = new createjs.Bitmap(assets.getResult("RanOutMoney"));
+                this.addChild(this._ranOutMoney);
+                this._ranOutMoney.x = 166;
+                this._ranOutMoney.y = 190;
+                
+                // add control buttons
+                this._okButton = new objects.Button("Ok", 220, 243, false);
+                this.addChild(this._okButton);
+                this._okButton.on("click", this._okButtonClick, this);
+                this._cancelButton = new objects.Button("Cancel", 350, 243, false);
+                this.addChild(this._cancelButton);
+                this._cancelButton.on("click", this._cancelButtonClick, this);
+                
+                // disable spin and reset button
+                this._resetButton.visible = false;
+                this._spinButton.visible = false;
             }
-            else if (this._bet > this._credit) {
-                alert("You don't have enough money to place that bet.");
+            else if (this._bet > this._credit) {    // code when player do not have enough money
+                // show error message box
+                this._notEnoughMoney = new createjs.Bitmap(assets.getResult("NotEnoughMoney"));
+                this.addChild(this._notEnoughMoney);
+                this._notEnoughMoney.x = 166;
+                this._notEnoughMoney.y = 190;
+                
+                // add control button
+                this._closeButton = new objects.Button("Close", 290, 245, false);
+                this.addChild(this._closeButton);
+                this._closeButton.on("click", this._closeButtonClick, this);
+                
+                // disable spin and reset button
+                this._resetButton.visible = false;
+                this._spinButton.visible = false;
             }
-            else if (this._bet <= this._credit) {
+            else if (this._bet <= this._credit) {   //code when everything is good
                 console.log(this._reels());
                 this._calculateWinning();
             }
         }
                        
         //EVENT HANDLERS ++++++++++++++++++++
+        // RESET button event handler
         private _resetButtonClick(event: createjs.MouseEvent): void {
             console.log("Reset game");
             this._resetGame();
         }
-
+        
+        //QUIT button event handler
         private _quitButtonClick(event: createjs.MouseEvent): void {
+            // show message box
+            this._quitMessage = new createjs.Bitmap(assets.getResult("QuitMessage"));
+            this._quitMessage.x = 166;
+            this._quitMessage.y = 190;
+            this.addChild(this._quitMessage);
+            // add controls
+            this._yesButton = new objects.Button("Yes", 220, 235, false);
+            this.addChild(this._yesButton);
+            this._yesButton.on("click", this._yesButtonClick, this);
+            this._noButton = new objects.Button("No", 350, 235, false);
+            this.addChild(this._noButton);
+            this._noButton.on("click", this._noButtonClick, this);
+            // disable spin and reset button
+            this._resetButton.visible = false;
+            this._spinButton.visible = false;
+            // disable RanOutMoney message box
+            this.removeChild(this._okButton);
+            this.removeChild(this._cancelButton);
+            this.removeChild(this._ranOutMoney);
+            // disable NotEnoughMoney message box
+            this.removeChild(this._closeButton);
+            this.removeChild(this._notEnoughMoney);
+        }
+        
+        // BET1BUTTON button event handler
+        private _bet1ButtonClick(event: createjs.MouseEvent): void {
+            console.log("Bet 1 Credit");
+            this._bet = 1;
+        }
+        
+        // BET10BUTTON button event handler
+        private _bet10ButtonClick(event: createjs.MouseEvent): void {
+            console.log("Bet 10 Credit");
+            this._bet = 10;
+        }
+        
+        // BET100BUTTON button event handler
+        private _bet100ButtonClick(event: createjs.MouseEvent): void {
+            console.log("Bet 100 Credit");
+            this._bet = 100;
+        }
+        
+        //SPIN button event handler
+        private _spinButtonClick(event: createjs.MouseEvent): void {
+            console.log("Spin those reels!");
+            this._determineEligibility();
+        }
+        
+        // OK button event handler
+        private _okButtonClick(event: createjs.MouseEvent): void {
+            console.log("OK button clicked");
+            // reset game
+            this._resetGame();
+            // enable spin and reset buttons
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable message box
+            this.removeChild(this._okButton);
+            this.removeChild(this._cancelButton);
+            this.removeChild(this._ranOutMoney);
+        }
+        
+        // CANCEL button event handler
+        private _cancelButtonClick(event: createjs.MouseEvent): void {
+            console.log("CANCEL button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable message box
+            this.removeChild(this._okButton);
+            this.removeChild(this._cancelButton);
+            this.removeChild(this._ranOutMoney);
+        }
+        
+        //CLOSE button event handler
+        private _closeButtonClick(event: createjs.MouseEvent): void {
+            console.log("CLOSE button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable message box
+            this.removeChild(this._closeButton);
+            this.removeChild(this._notEnoughMoney);
+        }
+        
+        //YES button event handler
+        private _yesButtonClick(event: createjs.MouseEvent): void {
+            console.log("YES button clicked");
             //switch to GAMEOVER scene
             scene = config.Scene.GAME_OVER;
             changeScene();
             console.log("start Game over scene");
         }
-        private _bet1ButtonClick(event: createjs.MouseEvent): void {
-            console.log("Bet 1 Credit");
-            this._bet = 1;
-        }
-
-        private _bet10ButtonClick(event: createjs.MouseEvent): void {
-            console.log("Bet 10 Credit");
-            this._bet = 10;
-        }
-
-        private _bet100ButtonClick(event: createjs.MouseEvent): void {
-            console.log("Bet 100 Credit");
-            this._bet = 100;
-        }
-
-        private _spinButtonClick(event: createjs.MouseEvent): void {
-            console.log("Spin those reels!");
-            this._determineEligibility();
+        
+        // NO button event handler
+        private _noButtonClick(event: createjs.MouseEvent): void {
+            console.log("NO button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // disable messagebox
+            this.removeChild(this._yesButton);
+            this.removeChild(this._noButton);
+            this.removeChild(this._quitMessage);
         }
     }
 }
