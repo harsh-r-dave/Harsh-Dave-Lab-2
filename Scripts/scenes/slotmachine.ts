@@ -94,16 +94,22 @@ module scenes {
             this._betImage.y = 293;
             this.addChild(this._betImage);
             
+            // define jackpot variable to prevent run time error
+            this._jackpot = 10140;
             // add jackpot label to the scene
-            this._jackpotLabel = new objects.Label(153456, "25px Impact", "#000000", config.Screen.CENTER_X, 13);
+            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
             this.addChild(this._jackpotLabel);
             
+            // define bet variable to prevent run time error
+            this._bet = 10;
             // add bet label to the scene
-            this._betLabel = new objects.Label(100, "25px Impact", "#000000", 433, 305);
+            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#000000", 433, 305);
             this.addChild(this._betLabel);
             
+            // define credit variable to prevent run time error
+            this._credit = 1000;
             // add credit label to the scene
-            this._creditLabel = new objects.Label(1000, "25px Impact", "#000000", 290, 305);
+            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#000000", 290, 305);
             this.addChild(this._creditLabel);
             
             // add this scene to the global stage container
@@ -112,7 +118,22 @@ module scenes {
 
         // SLOT_MACHINE Scene updates here
         public update(): void {
-
+            // remove previous element to prevent over writing
+            this.removeChild(this._jackpotLabel);
+            this.removeChild(this._betLabel);
+            this.removeChild(this._creditLabel);
+            
+            // update jackpot label
+            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
+            this.addChild(this._jackpotLabel);
+            
+            // update bet label
+            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#000000", 433, 305);
+            this.addChild(this._betLabel);
+            
+            // update credit label
+            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#000000", 290, 305);
+            this.addChild(this._creditLabel);
         }
         
         //PRIVATE METHODS
@@ -233,6 +254,7 @@ module scenes {
             this._win = 0;
             this._bet = 10;
             this._resetFruitTally();
+            this.update();
         }
                 
         // function to calculate winning amount
@@ -292,6 +314,7 @@ module scenes {
                 }
                 this._credit += this._win;
                 this._resetFruitTally();
+                this.update();
                 //winNumber++;
                 //showWinMessage();
             }
@@ -301,6 +324,7 @@ module scenes {
                 this._jackpot += this._bet;
                 this._credit -= this._bet;
                 this._resetFruitTally();
+                this.update();
             }
             console.log("User Credit:" + this._credit);
             console.log("Bet Amount:" + this._bet);
@@ -355,6 +379,7 @@ module scenes {
         // RESET button event handler
         private _resetButtonClick(event: createjs.MouseEvent): void {
             console.log("Reset game");
+            this.update();
             this._resetGame();
         }
         
@@ -387,24 +412,28 @@ module scenes {
         // BET1BUTTON button event handler
         private _bet1ButtonClick(event: createjs.MouseEvent): void {
             console.log("Bet 1 Credit");
+            this.update();
             this._bet = 1;
         }
         
         // BET10BUTTON button event handler
         private _bet10ButtonClick(event: createjs.MouseEvent): void {
             console.log("Bet 10 Credit");
+            this.update();
             this._bet = 10;
         }
         
         // BET100BUTTON button event handler
         private _bet100ButtonClick(event: createjs.MouseEvent): void {
             console.log("Bet 100 Credit");
+            this.update();
             this._bet = 100;
         }
         
         //SPIN button event handler
         private _spinButtonClick(event: createjs.MouseEvent): void {
             console.log("Spin those reels!");
+            this.update();
             this._determineEligibility();
         }
         

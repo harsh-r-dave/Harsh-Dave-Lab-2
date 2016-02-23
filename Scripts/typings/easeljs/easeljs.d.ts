@@ -897,7 +897,7 @@ declare module createjs {
 
 
     export class Text extends DisplayObject {
-        constructor(text?: number, font?: string, color?: string);
+        constructor(text?: string, font?: string, color?: string);
 
         // properties
         color: string;
