@@ -20,8 +20,10 @@ var assetData:objects.Asset[] = [
     {id: "Quit", src:"../../Assets/images/Quit.png"},                       //SLOT_MACHINE scene-QuitButton
     {id: "Reset", src:"../../Assets/images/Reset.png"},                     //SLOT_MACHINE scene-ResetButton
     {id: "SlotMachine", src:"../../Assets/images/SlotMachine.png"},         //SLOT_MACHINE scene-SlotMachine
-    {id: "Credit", src:"../../Assets/images/credit1.png"},                  //SLOT_MACHINE scene-Credit
-    {id: "Bet", src:"../../Assets/images/bet1.png"},                        //SLOT_MACHINE scene-Bet
+    {id: "Credit", src:"../../Assets/images/credit1.png"},                  //SLOT_MACHINE scene-Credi text
+    {id: "Bet", src:"../../Assets/images/bet1.png"},                        //SLOT_MACHINE scene-Bet text
+    {id: "Win", src:"../../Assets/images/win.png"},                         //SLOT_MACHINE scene-Win text
+    {id: "Total", src:"../../Assets/images/total.png"},                     //SLOT_MACHINE scene-Total text
     {id: "Bet1Button", src:"../../Assets/images/Bet1Button.png"},           //SLOT_MACHINE scene-Bet1Button
     {id: "Bet10Button", src:"../../Assets/images/Bet10Button.png"},         //SLOT_MACHINE scene-Bet10Button
     {id: "Bet100Button", src:"../../Assets/images/Bet100Button.png"},       //SLOT_MACHINE scene-Bet100Button

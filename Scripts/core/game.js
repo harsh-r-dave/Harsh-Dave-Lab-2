@@ -18,6 +18,8 @@ var assetData = [
     { id: "SlotMachine", src: "../../Assets/images/SlotMachine.png" },
     { id: "Credit", src: "../../Assets/images/credit1.png" },
     { id: "Bet", src: "../../Assets/images/bet1.png" },
+    { id: "Win", src: "../../Assets/images/win.png" },
+    { id: "Total", src: "../../Assets/images/total.png" },
     { id: "Bet1Button", src: "../../Assets/images/Bet1Button.png" },
     { id: "Bet10Button", src: "../../Assets/images/Bet10Button.png" },
     { id: "Bet100Button", src: "../../Assets/images/Bet100Button.png" },

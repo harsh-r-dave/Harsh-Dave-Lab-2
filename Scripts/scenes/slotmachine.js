@@ -20,9 +20,10 @@ var scenes;
             this._sevens = 0;
             this._blanks = 0;
             this._bet = 10;
-            this._jackpot = 10140;
+            this._jackpot = 10000;
             this._credit = 1000;
             this._win = 0;
+            this._totalWin = 0;
         }
         // PUBLIC METHODS +++++++++++++++++++++
         // Start Method
@@ -64,20 +65,40 @@ var scenes;
             this._betImage.x = 335;
             this._betImage.y = 293;
             this.addChild(this._betImage);
+            // add win image to the scene
+            this._winImage = new createjs.Bitmap(assets.getResult("Win"));
+            this._winImage.x = 172;
+            this._winImage.y = 97;
+            this.addChild(this._winImage);
+            // add total image to the scene
+            this._totalWinImage = new createjs.Bitmap(assets.getResult("Total"));
+            this._totalWinImage.x = 330;
+            this._totalWinImage.y = 95;
+            this.addChild(this._totalWinImage);
+            // define win variable to prevent run time error
+            this._win = 0;
+            // add win label to the scene
+            this._winLabel = new objects.Label("$" + this._win.toString(), "25px Impact", "#000000", 270, 110);
+            this.addChild(this._winLabel);
+            // define totalWin variable to prevent run time error
+            this._totalWin = 0;
+            // add totalWin label to the scene
+            this._totalWinLabel = new objects.Label("$" + this._totalWin.toString(), "25px Impact", "#000000", 420, 110);
+            this.addChild(this._totalWinLabel);
             // define jackpot variable to prevent run time error
-            this._jackpot = 10140;
+            this._jackpot = 10000;
             // add jackpot label to the scene
-            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
+            this._jackpotLabel = new objects.Label("$" + this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
             this.addChild(this._jackpotLabel);
             // define bet variable to prevent run time error
             this._bet = 10;
             // add bet label to the scene
-            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#000000", 433, 305);
+            this._betLabel = new objects.Label("$" + this._bet.toString(), "25px Impact", "#000000", 433, 305);
             this.addChild(this._betLabel);
             // define credit variable to prevent run time error
             this._credit = 1000;
             // add credit label to the scene
-            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#000000", 290, 305);
+            this._creditLabel = new objects.Label("$" + this._credit.toString(), "25px Impact", "#000000", 290, 305);
             this.addChild(this._creditLabel);
             // add this scene to the global stage container
             stage.addChild(this);
@@ -88,14 +109,22 @@ var scenes;
             this.removeChild(this._jackpotLabel);
             this.removeChild(this._betLabel);
             this.removeChild(this._creditLabel);
+            this.removeChild(this._winLabel);
+            this.removeChild(this._totalWinLabel);
+            // update win label
+            this._winLabel = new objects.Label("$" + this._win.toString(), "25px Impact", "#000000", 270, 110);
+            this.addChild(this._winLabel);
+            // udpate totalWin label
+            this._totalWinLabel = new objects.Label("$" + this._totalWin.toString(), "25px Impact", "#000000", 420, 110);
+            this.addChild(this._totalWinLabel);
             // update jackpot label
-            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
+            this._jackpotLabel = new objects.Label("$" + this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
             this.addChild(this._jackpotLabel);
             // update bet label
-            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#000000", 433, 305);
+            this._betLabel = new objects.Label("$" + this._bet.toString(), "25px Impact", "#000000", 433, 305);
             this.addChild(this._betLabel);
             // update credit label
-            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#000000", 290, 305);
+            this._creditLabel = new objects.Label("$" + this._credit.toString(), "25px Impact", "#000000", 290, 305);
             this.addChild(this._creditLabel);
         };
         //PRIVATE METHODS
@@ -197,10 +226,12 @@ var scenes;
             this._createReel("Blank", 0);
             this._createReel("Blank", 1);
             this._createReel("Blank", 2);
+            // initialize default value to variables
             this._credit = 1000;
-            this._jackpot = 10140;
+            this._jackpot = 10000;
             this._win = 0;
             this._bet = 10;
+            this._totalWin = 0;
             this._resetFruitTally();
             this.update();
         };
@@ -259,12 +290,11 @@ var scenes;
                     this._win = this._bet * 1;
                 }
                 this._credit += this._win;
+                this._totalWin += this._win;
                 this._resetFruitTally();
                 this.update();
             }
             else {
-                //lossNumber++;
-                //showLossMessage();
                 this._jackpot += this._bet;
                 this._credit -= this._bet;
                 this._resetFruitTally();
@@ -273,6 +303,7 @@ var scenes;
             console.log("User Credit:" + this._credit);
             console.log("Bet Amount:" + this._bet);
             console.log("Winning Amount:" + this._win);
+            console.log("Total Winning:" + this._totalWin);
             console.log("Jackpot Amount:" + this._jackpot);
         };
         // determine eligibility of player
@@ -286,10 +317,10 @@ var scenes;
                 // add control buttons
                 this._okButton = new objects.Button("Ok", 220, 243, false);
                 this.addChild(this._okButton);
-                this._okButton.on("click", this._okButtonClick, this);
+                this._okButton.on("click", this._okButtonClick, this); // ok button event listener
                 this._cancelButton = new objects.Button("Cancel", 350, 243, false);
                 this.addChild(this._cancelButton);
-                this._cancelButton.on("click", this._cancelButtonClick, this);
+                this._cancelButton.on("click", this._cancelButtonClick, this); // cancel button event listener
                 // disable spin and reset button
                 this._resetButton.visible = false;
                 this._spinButton.visible = false;
@@ -303,7 +334,7 @@ var scenes;
                 // add control button
                 this._closeButton = new objects.Button("Close", 290, 245, false);
                 this.addChild(this._closeButton);
-                this._closeButton.on("click", this._closeButtonClick, this);
+                this._closeButton.on("click", this._closeButtonClick, this); // close button event listener
                 // disable spin and reset button
                 this._resetButton.visible = false;
                 this._spinButton.visible = false;
@@ -330,10 +361,10 @@ var scenes;
             // add controls
             this._yesButton = new objects.Button("Yes", 220, 235, false);
             this.addChild(this._yesButton);
-            this._yesButton.on("click", this._yesButtonClick, this);
+            this._yesButton.on("click", this._yesButtonClick, this); // yes button event listener
             this._noButton = new objects.Button("No", 350, 235, false);
             this.addChild(this._noButton);
-            this._noButton.on("click", this._noButtonClick, this);
+            this._noButton.on("click", this._noButtonClick, this); // no button event listener
             // disable spin and reset button
             this._resetButton.visible = false;
             this._spinButton.visible = false;
@@ -369,7 +400,7 @@ var scenes;
             this.update();
             this._determineEligibility();
         };
-        // OK button event handler
+        // OK button event handler (RanOutMoney dialog)
         SlotMachine.prototype._okButtonClick = function (event) {
             console.log("OK button clicked");
             // reset game
@@ -382,7 +413,7 @@ var scenes;
             this.removeChild(this._cancelButton);
             this.removeChild(this._ranOutMoney);
         };
-        // CANCEL button event handler
+        // CANCEL button event handler (RanOutMoney dialog)
         SlotMachine.prototype._cancelButtonClick = function (event) {
             console.log("CANCEL button clicked");
             // enable spin and reset button
@@ -393,7 +424,7 @@ var scenes;
             this.removeChild(this._cancelButton);
             this.removeChild(this._ranOutMoney);
         };
-        //CLOSE button event handler
+        //CLOSE button event handler (NotEnoughMoney dialog)
         SlotMachine.prototype._closeButtonClick = function (event) {
             console.log("CLOSE button clicked");
             // enable spin and reset button
@@ -403,7 +434,7 @@ var scenes;
             this.removeChild(this._closeButton);
             this.removeChild(this._notEnoughMoney);
         };
-        //YES button event handler
+        //YES button event handler (QUIT dialog)
         SlotMachine.prototype._yesButtonClick = function (event) {
             console.log("YES button clicked");
             //switch to GAMEOVER scene
@@ -411,7 +442,7 @@ var scenes;
             changeScene();
             console.log("start Game over scene");
         };
-        // NO button event handler
+        // NO button event handler (QUIT dialog)
         SlotMachine.prototype._noButtonClick = function (event) {
             console.log("NO button clicked");
             // enable spin and reset button

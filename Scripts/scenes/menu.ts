@@ -28,8 +28,7 @@ module scenes {
             
             // PLAYGAME Button event listener
             this._PlayGameButton.on("click", this._PlayGameButtonClick, this);
-           
-            
+                       
             // add this scene to the global stage container
             stage.addChild(this);
         }
