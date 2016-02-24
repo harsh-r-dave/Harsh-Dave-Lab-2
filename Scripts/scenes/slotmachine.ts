@@ -1,4 +1,6 @@
 // SLOT MACHINE SCENE
+// GAME LOGIC (_reels & _calculateWinning) CREDIT: Tom Tsiliopoulos, Professor, Centennial College
+
 module scenes {
     export class SlotMachine extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
@@ -297,7 +299,7 @@ module scenes {
             this._resetFruitTally();
             this.update();
         }
-                
+        
         // function to calculate winning amount
         private _calculateWinning(): void {
             // deduct amount from player's credit
