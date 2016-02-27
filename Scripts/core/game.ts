@@ -40,6 +40,7 @@ var assetData:objects.Asset[] = [
     {id: "QuitMessage", src:"../../Assets/images/QuitMessage.png"},         //SLOT_MACHINE scene-Quit
     {id: "Yes", src:"../../Assets/images/Yes.png"},                         //SLOT_MACHINE scene-Yes
     {id: "No", src:"../../Assets/images/No.png"},                           //SLOT_MACHINE scene-No
+    {id: "JackpotMessage", src:"../../Assets/images/jackpotMessage.png"},   //SLOT_MACHINE scene-JackpotMessage
     {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},               //GAME_OVER scene-ThankYou
     {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},       //GAME_OVER scene-PlayAgainButton
     {id: "Home", src:"../../Assets/images/Home.png"},                       //GAME_OVER scene-HomeButton

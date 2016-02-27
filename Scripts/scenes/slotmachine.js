@@ -25,6 +25,9 @@ var scenes;
             this._credit = 1000;
             this._win = 0;
             this._totalWin = 0;
+            this._jackpotTry = 0;
+            this._jackpotWin = 0;
+            this._jackpotPay = 0;
         }
         // PUBLIC METHODS +++++++++++++++++++++
         // Start Method
@@ -59,19 +62,19 @@ var scenes;
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this);
             // add win label to the scene
-            this._winLabel = new objects.Label(this._win.toString(), "25px Impact", "#ff0000", 235, 415);
+            this._winLabel = new objects.Label(this._win.toString(), "25px Quantico", "#ff0000", 235, 413);
             this.addChild(this._winLabel);
             // add totalWin label to the scene
-            this._totalWinLabel = new objects.Label(this._totalWin.toString(), "25px Impact", "#ff0000", 347, 415);
+            this._totalWinLabel = new objects.Label(this._totalWin.toString(), "25px Quantico", "#ff0000", 347, 413);
             this.addChild(this._totalWinLabel);
             // add jackpot label to the scene
-            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#ff0000", 281, 95);
+            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Quantico", "#ff0000", 281, 93);
             this.addChild(this._jackpotLabel);
             // add bet label to the scene
-            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#ff0000", 150, 415);
+            this._betLabel = new objects.Label(this._bet.toString(), "25px Quantico", "#ff0000", 150, 413);
             this.addChild(this._betLabel);
             // add credit label to the scene
-            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#ff0000", 52, 415);
+            this._creditLabel = new objects.Label(this._credit.toString(), "25px Quantico", "#ff0000", 52, 413);
             this.addChild(this._creditLabel);
             // Setup Background
             this._setupBackground("WhiteBackground");
@@ -89,22 +92,55 @@ var scenes;
             this.removeChild(this._winLabel);
             this.removeChild(this._totalWinLabel);
             // update win label
-            this._winLabel = new objects.Label(this._win.toString(), "25px Impact", "#ff0000", 235, 415);
+            this._winLabel = new objects.Label(this._win.toString(), "25px Quantico", "#ff0000", 235, 413);
             this.addChild(this._winLabel);
             // udpate totalWin label
-            this._totalWinLabel = new objects.Label(this._totalWin.toString(), "25px Impact", "#ff0000", 347, 415);
+            this._totalWinLabel = new objects.Label(this._totalWin.toString(), "25px Quantico", "#ff0000", 347, 413);
             this.addChild(this._totalWinLabel);
             // update jackpot label
-            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#ff0000", 281, 95);
+            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Quantico", "#ff0000", 281, 93);
             this.addChild(this._jackpotLabel);
             // update bet label
-            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#ff0000", 150, 415);
+            this._betLabel = new objects.Label(this._bet.toString(), "25px Quantico", "#ff0000", 150, 413);
             this.addChild(this._betLabel);
             // update credit label
-            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#ff0000", 52, 415);
+            this._creditLabel = new objects.Label(this._credit.toString(), "25px Quantico", "#ff0000", 52, 413);
             this.addChild(this._creditLabel);
         };
         //PRIVATE METHODS
+        /* Check to see if the player won the jackpot */
+        SlotMachine.prototype._checkJackPot = function () {
+            /* compare two random values */
+            this._jackpotTry = Math.floor(Math.random() * 51 + 1);
+            this._jackpotWin = Math.floor(Math.random() * 51 + 1);
+            if (this._jackpotTry == this._jackpotWin) {
+                this._jackpotPay = this._jackpot / 2; // pay half amount of jackpot
+                if (this._jackpotPay % 2 != 0) {
+                    this._jackpotPay = Math.floor(this._jackpotPay);
+                    this._jackpot = Math.ceil(this._jackpot);
+                }
+                // create jackpot message window
+                this._jackpotMessage = new createjs.Bitmap(assets.getResult("JackpotMessage"));
+                this._jackpotMessage.x = 98;
+                this._jackpotMessage.y = 144;
+                this._jackpotMessage.alpha = 0.9;
+                this.addChild(this._jackpotMessage);
+                // create jackpot pay label
+                this._jackpotPayLabel = new objects.Label(this._jackpotPay.toString(), "50px Quantico", "#000000", 270, 243);
+                this.addChild(this._jackpotPayLabel);
+                // create ok button to close message box
+                this._jackpotOKButton = new objects.Button("Close", 240, 290, false);
+                this._jackpotOKButton.alpha = 0.9;
+                this.addChild(this._jackpotOKButton);
+                this._jackpotOKButton.on("click", this._jackpotOkButtonClick, this);
+                // disable spin and reset button
+                this._resetButton.visible = false;
+                this._spinButton.visible = false;
+                // update player credit and jackpot amount
+                this._credit += this._jackpotPay;
+                this._jackpot -= this._jackpotPay;
+            }
+        };
         // function to generate reels
         SlotMachine.prototype._createReel = function (image, position) {
             if (position == 0) {
@@ -270,6 +306,7 @@ var scenes;
                 this._totalWin += this._win;
                 this._resetFruitTally();
                 this.update();
+                this._checkJackPot();
             }
             else {
                 this._jackpot += this._bet;
@@ -432,6 +469,16 @@ var scenes;
             this.removeChild(this._yesButton);
             this.removeChild(this._noButton);
             this.removeChild(this._quitMessage);
+        };
+        SlotMachine.prototype._jackpotOkButtonClick = function (event) {
+            console.log("Jackpot Messaage OK button clicked");
+            // enable spin and reset button
+            this._resetButton.visible = true;
+            this._spinButton.visible = true;
+            // close messagebox
+            this.removeChild(this._jackpotMessage);
+            this.removeChild(this._jackpotPayLabel);
+            this.removeChild(this._jackpotOKButton);
         };
         return SlotMachine;
     })(objects.Scene);

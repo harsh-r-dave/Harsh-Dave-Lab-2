@@ -36,6 +36,7 @@ var assetData = [
     { id: "QuitMessage", src: "../../Assets/images/QuitMessage.png" },
     { id: "Yes", src: "../../Assets/images/Yes.png" },
     { id: "No", src: "../../Assets/images/No.png" },
+    { id: "JackpotMessage", src: "../../Assets/images/jackpotMessage.png" },
     { id: "ThankYou", src: "../../Assets/images/ThankYou.jpg" },
     { id: "PlayAgainButton", src: "../../Assets/images/PlayAgain.png" },
     { id: "Home", src: "../../Assets/images/Home.png" },
