@@ -47,6 +47,8 @@ var assetData:objects.Asset[] = [
     {id: "ThankYou", src:"../../Assets/images/ThankYou.jpg"},               //GAME_OVER scene-ThankYou
     {id: "PlayAgainButton", src:"../../Assets/images/PlayAgain.png"},       //GAME_OVER scene-PlayAgainButton
     {id: "Home", src:"../../Assets/images/Home.png"},                       //GAME_OVER scene-HomeButton
+    {id: "BlackBackground", src:"../../Assets/images/BlackBackground.png"}, //Fade effect
+    {id: "WhiteBackground", src:"../../Assets/images/WhiteBackground.png"}  //fade effect
 ];
 
 function preload() {

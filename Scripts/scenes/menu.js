@@ -23,6 +23,10 @@ var scenes;
             this.addChild(this._PlayGameButton);
             // PLAYGAME Button event listener
             this._PlayGameButton.on("click", this._PlayGameButtonClick, this);
+            // Setup Background
+            this._setupBackground("WhiteBackground");
+            // FadeIn
+            this._fadeIn(500);
             // add this scene to the global stage container
             stage.addChild(this);
         };
@@ -32,9 +36,12 @@ var scenes;
         //EVENT HANDLERS ++++++++++++++++++++
         // PLAYGAME Button click event handler
         Menu.prototype._PlayGameButtonClick = function (event) {
-            // Switch to the SLOT_MACHINE Scene
-            scene = config.Scene.SLOT_MACHINE;
-            changeScene();
+            //FadeOut 
+            this._fadeOut(500, function () {
+                // Switch to the SLOT_MACHINE Scene
+                scene = config.Scene.SLOT_MACHINE;
+                changeScene();
+            });
         };
         return Menu;
     })(objects.Scene);

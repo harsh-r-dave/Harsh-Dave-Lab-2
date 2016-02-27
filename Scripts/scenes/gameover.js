@@ -28,6 +28,10 @@ var scenes;
             this.addChild(this._homeButton);
             // Home Button event listener
             this._homeButton.on("click", this._homeButtonClick, this);
+            // Setup Background
+            this._setupBackground("WhiteBackground");
+            // FadeIn
+            this._fadeIn(500);
             // add this scene to the global stage container
             stage.addChild(this);
         };
@@ -37,15 +41,21 @@ var scenes;
         //EVENT HANDLERS ++++++++++++++++++++
         // PLAYAGAIN Button click event handler
         GameOver.prototype._playAgainButtonClick = function (event) {
-            // Switch to the SLOT_MACHINE Scene
-            scene = config.Scene.SLOT_MACHINE;
-            changeScene();
+            //FadeOut 
+            this._fadeOut(500, function () {
+                // Switch to the SLOT_MACHINE Scene
+                scene = config.Scene.SLOT_MACHINE;
+                changeScene();
+            });
         };
         // HOME Button click event handler
         GameOver.prototype._homeButtonClick = function (event) {
-            //swich to the MENU scene
-            scene = config.Scene.MENU;
-            changeScene();
+            //FadeOut 
+            this._fadeOut(500, function () {
+                //swich to the MENU scene
+                scene = config.Scene.MENU;
+                changeScene();
+            });
         };
         return GameOver;
     })(objects.Scene);

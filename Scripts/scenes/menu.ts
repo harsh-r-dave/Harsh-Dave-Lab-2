@@ -2,7 +2,7 @@
 module scenes {
     export class Menu extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
-        private _PlayGameButton:objects.Button;
+        private _PlayGameButton: objects.Button;
         private _welcomeImage: createjs.Bitmap;
         
         // CONSTRUCTOR ++++++++++++++++++++++
@@ -28,6 +28,12 @@ module scenes {
             
             // PLAYGAME Button event listener
             this._PlayGameButton.on("click", this._PlayGameButtonClick, this);
+             
+            // Setup Background
+            this._setupBackground("WhiteBackground");
+           
+            // FadeIn
+            this._fadeIn(500);
                        
             // add this scene to the global stage container
             stage.addChild(this);
@@ -43,9 +49,12 @@ module scenes {
         
         // PLAYGAME Button click event handler
         private _PlayGameButtonClick(event: createjs.MouseEvent) {
-            // Switch to the SLOT_MACHINE Scene
-            scene = config.Scene.SLOT_MACHINE;
-            changeScene();
-        } 
+            //FadeOut 
+            this._fadeOut(500, () => {
+                // Switch to the SLOT_MACHINE Scene
+                scene = config.Scene.SLOT_MACHINE;
+                changeScene();
+            });
+        }
     }
 }

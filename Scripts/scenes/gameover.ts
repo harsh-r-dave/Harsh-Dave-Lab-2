@@ -2,7 +2,7 @@
 module scenes {
     export class GameOver extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
-        private _playAgainButton:objects.Button;
+        private _playAgainButton: objects.Button;
         private _homeButton: objects.Button;
         private _ThankImage: createjs.Bitmap;
         
@@ -29,7 +29,7 @@ module scenes {
             // PLAYAGAIN Button event listener
             this._playAgainButton.on("click", this._playAgainButtonClick, this);
            
-           // add the HOME button to the scene
+            // add the HOME button to the scene
             this._homeButton = new objects.Button(
                 "Home",
                 config.Screen.CENTER_X + 100,
@@ -38,6 +38,12 @@ module scenes {
             
             // Home Button event listener
             this._homeButton.on("click", this._homeButtonClick, this);
+            
+            // Setup Background
+            this._setupBackground("WhiteBackground");
+           
+            // FadeIn
+            this._fadeIn(500);
             
             // add this scene to the global stage container
             stage.addChild(this);
@@ -53,17 +59,23 @@ module scenes {
         
         // PLAYAGAIN Button click event handler
         private _playAgainButtonClick(event: createjs.MouseEvent) {
-            // Switch to the SLOT_MACHINE Scene
-            scene = config.Scene.SLOT_MACHINE;
-            changeScene();
+            //FadeOut 
+            this._fadeOut(500, () => {
+                // Switch to the SLOT_MACHINE Scene
+                scene = config.Scene.SLOT_MACHINE;
+                changeScene();
+            });
         }
         
         // HOME Button click event handler
         private _homeButtonClick(event: createjs.MouseEvent) {
-            //swich to the MENU scene
-            scene = config.Scene.MENU;
-            changeScene();
+            //FadeOut 
+            this._fadeOut(500, () => {
+                //swich to the MENU scene
+                scene = config.Scene.MENU;
+                changeScene();
+            });
         }
-        
+
     }
 }

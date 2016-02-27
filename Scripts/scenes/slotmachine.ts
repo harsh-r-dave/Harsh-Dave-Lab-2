@@ -5,10 +5,6 @@ module scenes {
     export class SlotMachine extends objects.Scene {
         //PRIVATE INSTANCE VARIABLES ++++++++++++
         private _backgroundImage: createjs.Bitmap;
-        private _creditImage: createjs.Bitmap;      // image to display credit text
-        private _betImage: createjs.Bitmap;         // image to display bet text
-        private _winImage: createjs.Bitmap;         // image to display win text
-        private _totalWinImage: createjs.Bitmap;    // image to display total text
         private _bet1Button: objects.Button;
         private _bet10Button: objects.Button;
         private _bet100Button: objects.Button;
@@ -55,93 +51,68 @@ module scenes {
         
         // Start Method
         public start(): void {
+            // reset the game
+            this._resetGame();
+            
             // add background image to the scene
             this._backgroundImage = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._backgroundImage);
         
             //add ResetButton to the scene
-            this._resetButton = new objects.Button("Reset", 185, 0, false);
+            this._resetButton = new objects.Button("Reset", 109, 42, false);
             this.addChild(this._resetButton);
             this._resetButton.on("click", this._resetButtonClick, this);
         
             //add QuitButton to the scene
-            this._quitButton = new objects.Button("Quit", 418, 0, false);
+            this._quitButton = new objects.Button("Quit", 420, 42, false);
             this.addChild(this._quitButton);
             this._quitButton.on("click", this._quitButtonClick, this);
             
             // add Bet1Button to the scene
-            this._bet1Button = new objects.Button("Bet1Button", 168, 382, false);
+            this._bet1Button = new objects.Button("Bet1Button", 434, 383, false);
             this.addChild(this._bet1Button);
             this._bet1Button.on("click", this._bet1ButtonClick, this); 
             
             // add Bet10Button to the scene
-            this._bet10Button = new objects.Button("Bet10Button", 240, 382, false);
+            this._bet10Button = new objects.Button("Bet10Button", 534, 383, false);
             this.addChild(this._bet10Button);
             this._bet10Button.on("click", this._bet10ButtonClick, this); 
             
             // add Bet100Button to the scene
-            this._bet100Button = new objects.Button("Bet100Button", 312, 382, false);
+            this._bet100Button = new objects.Button("Bet100Button", 434, 429, false);
             this.addChild(this._bet100Button);
             this._bet100Button.on("click", this._bet100ButtonClick, this); 
             
             // add SpinButton to the scene
-            this._spinButton = new objects.Button("SpinButton", 402, 382, false);
+            this._spinButton = new objects.Button("SpinButton", 534, 429, false);
             this.addChild(this._spinButton);
             this._spinButton.on("click", this._spinButtonClick, this); 
             
-            // add Credit image to the scene
-            this._creditImage = new createjs.Bitmap(assets.getResult("Credit"));
-            this._creditImage.x = 180;
-            this._creditImage.y = 293;
-            this.addChild(this._creditImage);
-            
-            // add Bet image to the scene
-            this._betImage = new createjs.Bitmap(assets.getResult("Bet"));
-            this._betImage.x = 335;
-            this._betImage.y = 293;
-            this.addChild(this._betImage);
-            
-            // add win image to the scene
-            this._winImage = new createjs.Bitmap(assets.getResult("Win"));
-            this._winImage.x = 172;
-            this._winImage.y = 97;
-            this.addChild(this._winImage);
-            
-            // add total image to the scene
-            this._totalWinImage = new createjs.Bitmap(assets.getResult("Total"));
-            this._totalWinImage.x = 330;
-            this._totalWinImage.y = 95;
-            this.addChild(this._totalWinImage);
-            
-            // define win variable to prevent run time error
-            this._win = 0;
             // add win label to the scene
-            this._winLabel = new objects.Label("$" + this._win.toString(), "25px Impact", "#000000", 270, 110);
+            this._winLabel = new objects.Label(this._win.toString(), "25px Impact", "#ff0000", 235, 415);
             this.addChild(this._winLabel);
             
-            // define totalWin variable to prevent run time error
-            this._totalWin = 0;
             // add totalWin label to the scene
-            this._totalWinLabel = new objects.Label("$" + this._totalWin.toString(), "25px Impact", "#000000", 420, 110);
+            this._totalWinLabel = new objects.Label(this._totalWin.toString(), "25px Impact", "#ff0000", 347, 415);
             this.addChild(this._totalWinLabel);
-            
-            // define jackpot variable to prevent run time error
-            this._jackpot = 10000;
+          
             // add jackpot label to the scene
-            this._jackpotLabel = new objects.Label("$" + this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
+            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#ff0000", 281, 95);
             this.addChild(this._jackpotLabel);
             
-            // define bet variable to prevent run time error
-            this._bet = 10;
             // add bet label to the scene
-            this._betLabel = new objects.Label("$" + this._bet.toString(), "25px Impact", "#000000", 433, 305);
+            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#ff0000", 150, 415);
             this.addChild(this._betLabel);
             
-            // define credit variable to prevent run time error
-            this._credit = 1000;
             // add credit label to the scene
-            this._creditLabel = new objects.Label("$" + this._credit.toString(), "25px Impact", "#000000", 290, 305);
+            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#ff0000", 52, 415);
             this.addChild(this._creditLabel);
+            
+            // Setup Background
+            this._setupBackground("WhiteBackground");
+           
+            // FadeIn
+            this._fadeIn(500);
             
             // add this scene to the global stage container
             stage.addChild(this);
@@ -157,23 +128,23 @@ module scenes {
             this.removeChild(this._totalWinLabel);
             
             // update win label
-            this._winLabel = new objects.Label("$" + this._win.toString(), "25px Impact", "#000000", 270, 110);
+            this._winLabel = new objects.Label(this._win.toString(), "25px Impact", "#ff0000", 235, 415);
             this.addChild(this._winLabel);
             
             // udpate totalWin label
-            this._totalWinLabel = new objects.Label("$" + this._totalWin.toString(), "25px Impact", "#000000", 420, 110);
+            this._totalWinLabel = new objects.Label(this._totalWin.toString(), "25px Impact", "#ff0000", 347, 415);
             this.addChild(this._totalWinLabel);
             
             // update jackpot label
-            this._jackpotLabel = new objects.Label("$" + this._jackpot.toString(), "25px Impact", "#000000", config.Screen.CENTER_X, 13);
+            this._jackpotLabel = new objects.Label(this._jackpot.toString(), "25px Impact", "#ff0000", 281, 95);
             this.addChild(this._jackpotLabel);
             
             // update bet label
-            this._betLabel = new objects.Label("$" + this._bet.toString(), "25px Impact", "#000000", 433, 305);
+            this._betLabel = new objects.Label(this._bet.toString(), "25px Impact", "#ff0000", 150, 415);
             this.addChild(this._betLabel);
             
             // update credit label
-            this._creditLabel = new objects.Label("$" + this._credit.toString(), "25px Impact", "#000000", 290, 305);
+            this._creditLabel = new objects.Label(this._credit.toString(), "25px Impact", "#ff0000", 52, 415);
             this.addChild(this._creditLabel);
         }
         
@@ -184,20 +155,20 @@ module scenes {
             if (position == 0) {
                 this._reel1 = new createjs.Bitmap(assets.getResult(image));
                 this.addChild(this._reel1);
-                this._reel1.x = 216;
-                this._reel1.y = 220;
+                this._reel1.x = 97;
+                this._reel1.y = 194;
             }
             else if (position == 1) {
                 this._reel2 = new createjs.Bitmap(assets.getResult(image));
                 this.addChild(this._reel2);
-                this._reel2.x = 300;
-                this._reel2.y = 220;
+                this._reel2.x = 229;
+                this._reel2.y = 194;
             }
             else if (position == 2) {
                 this._reel3 = new createjs.Bitmap(assets.getResult(image));
                 this.addChild(this._reel3);
-                this._reel3.x = 383;
-                this._reel3.y = 220;
+                this._reel3.x = 358;
+                this._reel3.y = 194;
             }
         }
         
@@ -518,9 +489,12 @@ module scenes {
         //YES button event handler (QUIT dialog)
         private _yesButtonClick(event: createjs.MouseEvent): void {
             console.log("YES button clicked");
-            //switch to GAMEOVER scene
-            scene = config.Scene.GAME_OVER;
-            changeScene();
+            //FadeOut 
+            this._fadeOut(500, () => {
+                //switch to GAMEOVER scene
+                scene = config.Scene.GAME_OVER;
+                changeScene();
+            });
             console.log("start Game over scene");
         }
         

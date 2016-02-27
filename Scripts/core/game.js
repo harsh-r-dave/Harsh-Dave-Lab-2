@@ -43,6 +43,8 @@ var assetData = [
     { id: "ThankYou", src: "../../Assets/images/ThankYou.jpg" },
     { id: "PlayAgainButton", src: "../../Assets/images/PlayAgain.png" },
     { id: "Home", src: "../../Assets/images/Home.png" },
+    { id: "BlackBackground", src: "../../Assets/images/BlackBackground.png" },
+    { id: "WhiteBackground", src: "../../Assets/images/WhiteBackground.png" } //fade effect
 ];
 function preload() {
     assets = new createjs.LoadQueue();
