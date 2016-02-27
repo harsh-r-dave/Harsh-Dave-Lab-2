@@ -20,18 +20,14 @@ var assetData:objects.Asset[] = [
     {id: "Quit", src:"../../Assets/images/Quit.png"},                       //SLOT_MACHINE scene-QuitButton
     {id: "Reset", src:"../../Assets/images/Reset.png"},                     //SLOT_MACHINE scene-ResetButton
     {id: "SlotMachine", src:"../../Assets/images/SlotMachine.png"},         //SLOT_MACHINE scene-SlotMachine
-    {id: "Credit", src:"../../Assets/images/credit1.png"},                  //SLOT_MACHINE scene-Credi text
-    {id: "Bet", src:"../../Assets/images/bet1.png"},                        //SLOT_MACHINE scene-Bet text
-    {id: "Win", src:"../../Assets/images/win.png"},                         //SLOT_MACHINE scene-Win text
-    {id: "Total", src:"../../Assets/images/total.png"},                     //SLOT_MACHINE scene-Total text
     {id: "Bet1Button", src:"../../Assets/images/Bet1Button.png"},           //SLOT_MACHINE scene-Bet1Button
     {id: "Bet10Button", src:"../../Assets/images/Bet10Button.png"},         //SLOT_MACHINE scene-Bet10Button
     {id: "Bet100Button", src:"../../Assets/images/Bet100Button.png"},       //SLOT_MACHINE scene-Bet100Button
     {id: "SpinButton", src:"../../Assets/images/SpinButton.png"},           //SLOT_MACHINE scene-SpinButton
     {id: "Blank", src:"../../Assets/images/blank.png"},                     //SLOT_MACHINE scene-Blank
     {id: "Banana", src:"../../Assets/images/banana.png"},                   //SLOT_MACHINE scene-Banana
-    {id: "Bar", src:"../../Assets/images/Bar.png"},                         //SLOT_MACHINE scene-Bar
-    {id: "Bell", src:"../../Assets/images/Bell.png"},                       //SLOT_MACHINE scene-Bell
+    {id: "Bar", src:"../../Assets/images/bar.png"},                         //SLOT_MACHINE scene-Bar
+    {id: "Bell", src:"../../Assets/images/bell.png"},                       //SLOT_MACHINE scene-Bell
     {id: "Cherry", src:"../../Assets/images/cherry.png"},                   //SLOT_MACHINE scene-Cherry
     {id: "Grape", src:"../../Assets/images/grape.png"},                     //SLOT_MACHINE scene-Grape
     {id: "Orange", src:"../../Assets/images/orange.png"},                   //SLOT_MACHINE scene-Orange
