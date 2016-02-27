@@ -129,10 +129,10 @@ var scenes;
                 this._jackpotPayLabel = new objects.Label(this._jackpotPay.toString(), "50px Quantico", "#000000", 270, 243);
                 this.addChild(this._jackpotPayLabel);
                 // create ok button to close message box
-                this._jackpotOKButton = new objects.Button("Close", 240, 290, false);
-                this._jackpotOKButton.alpha = 0.9;
-                this.addChild(this._jackpotOKButton);
-                this._jackpotOKButton.on("click", this._jackpotOkButtonClick, this);
+                this._jackpotCloseButton = new objects.Button("Close", 240, 290, false);
+                this._jackpotCloseButton.alpha = 0.9;
+                this.addChild(this._jackpotCloseButton);
+                this._jackpotCloseButton.on("click", this._jackpotOkButtonClick, this);
                 // disable spin and reset button
                 this._resetButton.visible = false;
                 this._spinButton.visible = false;
@@ -305,8 +305,8 @@ var scenes;
                 this._credit += this._win;
                 this._totalWin += this._win;
                 this._resetFruitTally();
-                this.update();
                 this._checkJackPot();
+                this.update();
             }
             else {
                 this._jackpot += this._bet;
@@ -389,6 +389,10 @@ var scenes;
             // disable NotEnoughMoney message box
             this.removeChild(this._closeButton);
             this.removeChild(this._notEnoughMoney);
+            // disable JackpotWin Message
+            this.removeChild(this._jackpotMessage);
+            this.removeChild(this._jackpotPayLabel);
+            this.removeChild(this._jackpotCloseButton);
         };
         // BET1BUTTON button event handler
         SlotMachine.prototype._bet1ButtonClick = function (event) {
@@ -478,7 +482,7 @@ var scenes;
             // close messagebox
             this.removeChild(this._jackpotMessage);
             this.removeChild(this._jackpotPayLabel);
-            this.removeChild(this._jackpotOKButton);
+            this.removeChild(this._jackpotCloseButton);
         };
         return SlotMachine;
     })(objects.Scene);

@@ -28,7 +28,7 @@ module scenes {
         private _yesButton: objects.Button;             // exit confirmation
         private _noButton: objects.Button;              // exit confirmation
         private _jackpotMessage: createjs.Bitmap;       // jackpot message
-        private _jackpotOKButton: objects.Button;       // jackpot ok button
+        private _jackpotCloseButton: objects.Button;    // jackpot close button
         private _jackpotPayLabel: objects.Label;        // jackpot pay label
 
         private _grapes = 0;
@@ -163,7 +163,7 @@ module scenes {
             this._jackpotWin = Math.floor(Math.random() * 51 + 1);
             if (this._jackpotTry == this._jackpotWin) {
                 this._jackpotPay = this._jackpot/2;     // pay half amount of jackpot
-                if(this._jackpotPay % 2 != 0)
+                if(this._jackpotPay % 2 != 0)           // rounds up the number to integer
                 {
                     this._jackpotPay = Math.floor(this._jackpotPay);
                     this._jackpot = Math.ceil(this._jackpot);
@@ -178,10 +178,10 @@ module scenes {
                 this._jackpotPayLabel = new objects.Label(this._jackpotPay.toString(), "50px Quantico", "#000000", 270, 243);
                 this.addChild(this._jackpotPayLabel);
                 // create ok button to close message box
-                this._jackpotOKButton = new objects.Button("Close", 240, 290, false);
-                this._jackpotOKButton.alpha = 0.9;
-                this.addChild(this._jackpotOKButton);
-                this._jackpotOKButton.on("click", this._jackpotOkButtonClick, this);
+                this._jackpotCloseButton = new objects.Button("Close", 240, 290, false);
+                this._jackpotCloseButton.alpha = 0.9;
+                this.addChild(this._jackpotCloseButton);
+                this._jackpotCloseButton.on("click", this._jackpotOkButtonClick, this);
                 
                 // disable spin and reset button
                 this._resetButton.visible = false;
@@ -372,8 +372,8 @@ module scenes {
                 this._credit += this._win;
                 this._totalWin += this._win;
                 this._resetFruitTally();
-                this.update();
                 this._checkJackPot();
+                this.update();
             }
             else {  // player loses bet amount
                 this._jackpot += this._bet;
@@ -463,6 +463,10 @@ module scenes {
             // disable NotEnoughMoney message box
             this.removeChild(this._closeButton);
             this.removeChild(this._notEnoughMoney);
+            // disable JackpotWin Message
+            this.removeChild(this._jackpotMessage);
+            this.removeChild(this._jackpotPayLabel);
+            this.removeChild(this._jackpotCloseButton);
         }
         
         // BET1BUTTON button event handler
@@ -562,7 +566,7 @@ module scenes {
             // close messagebox
             this.removeChild(this._jackpotMessage);
             this.removeChild(this._jackpotPayLabel);
-            this.removeChild(this._jackpotOKButton);
+            this.removeChild(this._jackpotCloseButton);
         }
     }
 }
