@@ -154,41 +154,51 @@ module scenes {
             this.addChild(this._creditLabel);
         }
         
-        //PRIVATE METHODS
+        //PRIVATE METHODS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+        // display JACKPOT WIN dialog box
+        private _displayJackpotWinMessage(): void {
+            // create jackpot message window
+            this._jackpotMessage = new createjs.Bitmap(assets.getResult("JackpotMessage"));
+            this._jackpotMessage.x = 98;
+            this._jackpotMessage.y = 144;
+            this._jackpotMessage.alpha = 0.9;
+            this.addChild(this._jackpotMessage);
+            // create jackpot pay label
+            this._jackpotPayLabel = new objects.Label(this._jackpotPay.toString(), "50px Quantico", "#000000", 270, 243);
+            this.addChild(this._jackpotPayLabel);
+            // create ok button to close message box
+            this._jackpotCloseButton = new objects.Button("Close", 240, 290, false);
+            this._jackpotCloseButton.alpha = 0.9;
+            this.addChild(this._jackpotCloseButton);
+            this._jackpotCloseButton.on("click", this._jackpotOkButtonClick, this);
+                
+            // disable spin and reset button
+            this._resetButton.visible = false;
+            this._spinButton.visible = false;
+        }
         
         /* Check to see if the player won the jackpot */
         private _checkJackPot() {
             /* compare two random values */
             this._jackpotTry = Math.floor(Math.random() * 51 + 1);
             this._jackpotWin = Math.floor(Math.random() * 51 + 1);
+            this._jackpotPay = 0;
+
             if (this._jackpotTry == this._jackpotWin) {
-                this._jackpotPay = this._jackpot/2;     // pay half amount of jackpot
-                if(this._jackpotPay % 2 != 0)           // rounds up the number to integer
+                this._jackpotPay = this._jackpot / 2;     // pay half amount of jackpot
+       
+                if (this._jackpotPay % 2 != 0)           // rounds up the number to integer
                 {
                     this._jackpotPay = Math.floor(this._jackpotPay);
                     this._jackpot = Math.ceil(this._jackpot);
                 }
-                // create jackpot message window
-                this._jackpotMessage = new createjs.Bitmap(assets.getResult("JackpotMessage"));
-                this._jackpotMessage.x = 98;
-                this._jackpotMessage.y = 144;
-                this._jackpotMessage.alpha = 0.9;
-                this.addChild(this._jackpotMessage);
-                // create jackpot pay label
-                this._jackpotPayLabel = new objects.Label(this._jackpotPay.toString(), "50px Quantico", "#000000", 270, 243);
-                this.addChild(this._jackpotPayLabel);
-                // create ok button to close message box
-                this._jackpotCloseButton = new objects.Button("Close", 240, 290, false);
-                this._jackpotCloseButton.alpha = 0.9;
-                this.addChild(this._jackpotCloseButton);
-                this._jackpotCloseButton.on("click", this._jackpotOkButtonClick, this);
-                
-                // disable spin and reset button
-                this._resetButton.visible = false;
-                this._spinButton.visible = false;
+                // call display JACKPOT WIN dialog box
+                this._displayJackpotWinMessage();
                 
                 // update player credit and jackpot amount
                 this._credit += this._jackpotPay;
+                this._totalWin += this._jackpotPay;
                 this._jackpot -= this._jackpotPay;
             }
         }
@@ -369,6 +379,7 @@ module scenes {
                 else {
                     this._win = this._bet * 1;
                 }
+                this._credit -= this._bet;
                 this._credit += this._win;
                 this._totalWin += this._win;
                 this._resetFruitTally();
@@ -376,71 +387,75 @@ module scenes {
                 this.update();
             }
             else {  // player loses bet amount
+                this._jackpotPay = 0;
                 this._jackpot += this._bet;
                 this._credit -= this._bet;
                 this._resetFruitTally();
                 this.update();
             }
-            console.log("User Credit:" + this._credit);
-            console.log("Bet Amount:" + this._bet);
-            console.log("Winning Amount:" + this._win);
-            console.log("Total Winning:" + this._totalWin);
-            console.log("Jackpot Amount:" + this._jackpot);
+            console.log("User Credit:\t" + this._credit);
+            console.log("Bet Amount:\t\t" + this._bet);
+            console.log("Winning Amount:\t" + this._win);
+            console.log("Total Winning:\t" + this._totalWin);
+            console.log("Jackpot Amount:\t" + this._jackpot);
+            console.log("Jackpot Win:\t" + this._jackpotPay);
+        }
+        
+        // generate RanOutOfMoney error message
+        private _displayRanOutMoney(): void {
+            // show error message box
+            this._ranOutMoney = new createjs.Bitmap(assets.getResult("RanOutMoney"));
+            this.addChild(this._ranOutMoney);
+            this._ranOutMoney.x = 166;
+            this._ranOutMoney.y = 190;
+                
+            // add control buttons
+            this._okButton = new objects.Button("Ok", 220, 243, false);
+            this.addChild(this._okButton);
+            this._okButton.on("click", this._okButtonClick, this);      // ok button event listener
+            this._cancelButton = new objects.Button("Cancel", 350, 243, false);
+            this.addChild(this._cancelButton);
+            this._cancelButton.on("click", this._cancelButtonClick, this);      // cancel button event listener
+                
+            // disable spin and reset button
+            this._resetButton.visible = false;
+            this._spinButton.visible = false;
+        }
+        
+        // generate NotEnoughMoney error message
+        private _displayNotEnoughMoney(): void {
+            // show error message box
+            this._notEnoughMoney = new createjs.Bitmap(assets.getResult("NotEnoughMoney"));
+            this.addChild(this._notEnoughMoney);
+            this._notEnoughMoney.x = 166;
+            this._notEnoughMoney.y = 190;
+                
+            // add control button
+            this._closeButton = new objects.Button("Close", 290, 245, false);
+            this.addChild(this._closeButton);
+            this._closeButton.on("click", this._closeButtonClick, this);        // close button event listener
+                
+            // disable spin and reset button
+            this._resetButton.visible = false;
+            this._spinButton.visible = false;
         }
         
         // determine eligibility of player
         private _determineEligibility(): void {
             if (this._credit <= 0) {    // code when player has 0 credit
-                // show error message box
-                this._ranOutMoney = new createjs.Bitmap(assets.getResult("RanOutMoney"));
-                this.addChild(this._ranOutMoney);
-                this._ranOutMoney.x = 166;
-                this._ranOutMoney.y = 190;
-                
-                // add control buttons
-                this._okButton = new objects.Button("Ok", 220, 243, false);
-                this.addChild(this._okButton);
-                this._okButton.on("click", this._okButtonClick, this);      // ok button event listener
-                this._cancelButton = new objects.Button("Cancel", 350, 243, false);
-                this.addChild(this._cancelButton);
-                this._cancelButton.on("click", this._cancelButtonClick, this);      // cancel button event listener
-                
-                // disable spin and reset button
-                this._resetButton.visible = false;
-                this._spinButton.visible = false;
+                this._displayRanOutMoney();
             }
             else if (this._bet > this._credit) {    // code when player do not have enough money
-                // show error message box
-                this._notEnoughMoney = new createjs.Bitmap(assets.getResult("NotEnoughMoney"));
-                this.addChild(this._notEnoughMoney);
-                this._notEnoughMoney.x = 166;
-                this._notEnoughMoney.y = 190;
-                
-                // add control button
-                this._closeButton = new objects.Button("Close", 290, 245, false);
-                this.addChild(this._closeButton);
-                this._closeButton.on("click", this._closeButtonClick, this);        // close button event listener
-                
-                // disable spin and reset button
-                this._resetButton.visible = false;
-                this._spinButton.visible = false;
+                this._displayNotEnoughMoney();
             }
             else if (this._bet <= this._credit) {   //code when everything is good
                 console.log(this._reels());
                 this._calculateWinning();
             }
         }
-                       
-        //EVENT HANDLERS ++++++++++++++++++++
-        // RESET button event handler
-        private _resetButtonClick(event: createjs.MouseEvent): void {
-            console.log("Reset game");
-            this.update();
-            this._resetGame();
-        }
         
-        //QUIT button event handler
-        private _quitButtonClick(event: createjs.MouseEvent): void {
+        // display QUIT CONFIRMATION dialog box
+        private _displayQuitDialogBox(): void {
             // show message box
             this._quitMessage = new createjs.Bitmap(assets.getResult("QuitMessage"));
             this._quitMessage.x = 166;
@@ -467,6 +482,19 @@ module scenes {
             this.removeChild(this._jackpotMessage);
             this.removeChild(this._jackpotPayLabel);
             this.removeChild(this._jackpotCloseButton);
+        }
+                       
+        //EVENT HANDLERS ++++++++++++++++++++
+        // RESET button event handler
+        private _resetButtonClick(event: createjs.MouseEvent): void {
+            console.log("Reset game");
+            this.update();
+            this._resetGame();
+        }
+        
+        //QUIT button event handler
+        private _quitButtonClick(event: createjs.MouseEvent): void {
+            this._displayQuitDialogBox();
         }
         
         // BET1BUTTON button event handler
@@ -558,6 +586,7 @@ module scenes {
             this.removeChild(this._quitMessage);
         }
         
+        // OK button event handler (JACKPOT WIN dialog)
         private _jackpotOkButtonClick(event: createjs.MouseEvent): void {
             console.log("Jackpot Messaage OK button clicked");
             // enable spin and reset button
